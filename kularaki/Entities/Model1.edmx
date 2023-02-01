@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DryCleaningModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ФИО" Type="nvarchar(max)" />
+          <Property Name="Телефон" Type="nchar" MaxLength="25" />
+          <Property Name="Адрес" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Дом" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="services">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ДатаПриема" Type="date" Nullable="false" />
+          <Property Name="ДатаВозврата" Type="date" />
+          <Property Name="IdTypesOfServices" Type="int" />
+          <Property Name="IdClient" Type="int" />
+          <Property Name="IdComplexity" Type="int" />
+        </EntityType>
+        <EntityType Name="Types">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Наименование" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TypesOfServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar(max)" />
+          <Property Name="Стоимость" Type="money" Nullable="false" />
+          <Property Name="Тип" Type="nvarchar(max)" />
+          <Property Name="IdTypes" Type="int" />
+        </EntityType>
+        <EntityType Name="Сomplexity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" />
+          <Property Name="Надбавка" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_services_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="IdClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_TypesOfServices">
+          <End Role="TypesOfServices" Type="Self.TypesOfServices" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesOfServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="IdTypesOfServices" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_Сomplexity">
+          <End Role="Сomplexity" Type="Self.Сomplexity" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сomplexity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="IdComplexity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TypesOfServices_Types">
+          <End Role="Types" Type="Self.Types" Multiplicity="0..1" />
+          <End Role="TypesOfServices" Type="Self.TypesOfServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TypesOfServices">
+              <PropertyRef Name="IdTypes" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище DryCleaningModelContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="services" EntityType="Self.services" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Types" EntityType="Self.Types" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TypesOfServices" EntityType="Self.TypesOfServices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сomplexity" EntityType="Self.Сomplexity" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_services_Client" Association="Self.FK_services_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_TypesOfServices" Association="Self.FK_services_TypesOfServices">
+            <End Role="TypesOfServices" EntitySet="TypesOfServices" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_Сomplexity" Association="Self.FK_services_Сomplexity">
+            <End Role="Сomplexity" EntitySet="Сomplexity" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TypesOfServices_Types" Association="Self.FK_TypesOfServices_Types">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="TypesOfServices" EntitySet="TypesOfServices" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DryCleaningModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ФИО" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Телефон" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="Адрес" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Дом" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="services" Relationship="Self.FK_services_Client" FromRole="Client" ToRole="services" />
+        </EntityType>
+        <EntityType Name="services">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ДатаПриема" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ДатаВозврата" Type="DateTime" Precision="0" />
+          <Property Name="IdTypesOfServices" Type="Int32" />
+          <Property Name="IdClient" Type="Int32" />
+          <Property Name="IdComplexity" Type="Int32" />
+          <NavigationProperty Name="Client" Relationship="Self.FK_services_Client" FromRole="services" ToRole="Client" />
+          <NavigationProperty Name="TypesOfServices" Relationship="Self.FK_services_TypesOfServices" FromRole="services" ToRole="TypesOfServices" />
+          <NavigationProperty Name="Сomplexity" Relationship="Self.FK_services_Сomplexity" FromRole="services" ToRole="Сomplexity" />
+        </EntityType>
+        <EntityType Name="Types">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Наименование" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TypesOfServices" Relationship="Self.FK_TypesOfServices_Types" FromRole="Types" ToRole="TypesOfServices" />
+        </EntityType>
+        <EntityType Name="TypesOfServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Стоимость" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Тип" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdTypes" Type="Int32" />
+          <NavigationProperty Name="services" Relationship="Self.FK_services_TypesOfServices" FromRole="TypesOfServices" ToRole="services" />
+          <NavigationProperty Name="Types" Relationship="Self.FK_TypesOfServices_Types" FromRole="TypesOfServices" ToRole="Types" />
+        </EntityType>
+        <EntityType Name="Сomplexity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Надбавка" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="services" Relationship="Self.FK_services_Сomplexity" FromRole="Сomplexity" ToRole="services" />
+        </EntityType>
+        <Association Name="FK_services_Client">
+          <End Role="Client" Type="Self.Client" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="IdClient" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_TypesOfServices">
+          <End Role="TypesOfServices" Type="Self.TypesOfServices" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypesOfServices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="IdTypesOfServices" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_services_Сomplexity">
+          <End Role="Сomplexity" Type="Self.Сomplexity" Multiplicity="0..1" />
+          <End Role="services" Type="Self.services" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сomplexity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="services">
+              <PropertyRef Name="IdComplexity" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TypesOfServices_Types">
+          <End Role="Types" Type="Self.Types" Multiplicity="0..1" />
+          <End Role="TypesOfServices" Type="Self.TypesOfServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Types">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TypesOfServices">
+              <PropertyRef Name="IdTypes" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DryCleaningEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Client" EntityType="Self.Client" />
+          <EntitySet Name="services" EntityType="Self.services" />
+          <EntitySet Name="Types" EntityType="Self.Types" />
+          <EntitySet Name="TypesOfServices" EntityType="Self.TypesOfServices" />
+          <EntitySet Name="Сomplexity" EntityType="Self.Сomplexity" />
+          <AssociationSet Name="FK_services_Client" Association="Self.FK_services_Client">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_TypesOfServices" Association="Self.FK_services_TypesOfServices">
+            <End Role="TypesOfServices" EntitySet="TypesOfServices" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_services_Сomplexity" Association="Self.FK_services_Сomplexity">
+            <End Role="Сomplexity" EntitySet="Сomplexity" />
+            <End Role="services" EntitySet="services" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TypesOfServices_Types" Association="Self.FK_TypesOfServices_Types">
+            <End Role="Types" EntitySet="Types" />
+            <End Role="TypesOfServices" EntitySet="TypesOfServices" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DryCleaningModelContainer" CdmEntityContainer="DryCleaningEntities1">
+          <EntitySetMapping Name="Client">
+            <EntityTypeMapping TypeName="DryCleaningModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+                <ScalarProperty Name="Телефон" ColumnName="Телефон" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="Дом" ColumnName="Дом" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="services">
+            <EntityTypeMapping TypeName="DryCleaningModel.services">
+              <MappingFragment StoreEntitySet="services">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ДатаПриема" ColumnName="ДатаПриема" />
+                <ScalarProperty Name="ДатаВозврата" ColumnName="ДатаВозврата" />
+                <ScalarProperty Name="IdTypesOfServices" ColumnName="IdTypesOfServices" />
+                <ScalarProperty Name="IdClient" ColumnName="IdClient" />
+                <ScalarProperty Name="IdComplexity" ColumnName="IdComplexity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types">
+            <EntityTypeMapping TypeName="DryCleaningModel.Types">
+              <MappingFragment StoreEntitySet="Types">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TypesOfServices">
+            <EntityTypeMapping TypeName="DryCleaningModel.TypesOfServices">
+              <MappingFragment StoreEntitySet="TypesOfServices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Стоимость" ColumnName="Стоимость" />
+                <ScalarProperty Name="Тип" ColumnName="Тип" />
+                <ScalarProperty Name="IdTypes" ColumnName="IdTypes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сomplexity">
+            <EntityTypeMapping TypeName="DryCleaningModel.Сomplexity">
+              <MappingFragment StoreEntitySet="Сomplexity">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="Надбавка" ColumnName="Надбавка" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
